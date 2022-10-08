@@ -1,0 +1,221 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp23"
+        xmlns:CustomTest="clr-namespace:CustomTest;assembly=CustomTest" x:Class="WpfApp23.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style x:Key="btn" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Black"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <Border HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch" 
+                                    Width="250" Height="250"
+                                    CornerRadius="250"
+                                    Background="Silver">
+                            </Border>
+                            <Border x:Name="Highlight"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch" 
+                                    Width="200"
+                                    Height="200"
+                                    CornerRadius="200"                                        
+                                    Background="Silver"
+                                    BorderBrush="#FFDADADA"
+                                    BorderThickness="10">
+                            </Border>
+                            <Border Width="250" Height="250"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch" 
+                                    CornerRadius="250"
+                                    Background="{DynamicResource MyGlassBrushResource}">
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsMouseOver" Value="True">
+                                <Setter TargetName="Highlight" Property="BorderBrush" Value="#FF3131FF"/>
+                            </Trigger>
+                            <Trigger Property="Button.IsPressed" Value="True">
+                                <Setter TargetName="Highlight" Property="BorderBrush" Value="#FF3131FF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <GradientStopCollection x:Key="MyGlassGradientStopsResource">
+            <GradientStop Color="Transparent" Offset="0.4" />
+            <GradientStop Color="WhiteSmoke" Offset="0.9" />
+            <GradientStop Color="Transparent" Offset="1" />
+        </GradientStopCollection>
+        <LinearGradientBrush x:Key="MyGlassBrushResource"
+                             StartPoint="0,0" EndPoint="1,1" Opacity="0.75"
+                             GradientStops="{StaticResource MyGlassGradientStopsResource}">
+        </LinearGradientBrush>
+
+        <Style x:Key="btn1" TargetType="{x:Type Button}">
+           <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid>
+                            <Grid x:Name="MainGrid" Background="#E0E5EC">
+                                <Border x:Name="SurroundingBorder"
+                Height="100" Width="100" Cursor="Hand"
+                VerticalAlignment="Center" HorizontalAlignment="Center"
+                Background="Transparent" BorderBrush="#E0E5EC"
+                BorderThickness="5" CornerRadius="12">
+                                    <Grid x:Name="InnerGrid" Background="#E0E5EC">
+                                        <Border x:Name="InnerLowerBorder"
+                        Height="100" Width="100" Cursor="Hand"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Background="Transparent" BorderBrush="#E0E5EC"
+                        BorderThickness="5" CornerRadius="12">
+                                            <Border.Effect>
+                                                <DropShadowEffect x:Name="InnerDarkShadow" BlurRadius="12"
+                                          ShadowDepth="5" Direction="315"
+                                          Color="#000000" Opacity="0.2"/>
+                                            </Border.Effect>
+                                        </Border>
+                                        <Border x:Name="InnerUpperBorder" 
+                        Height="100" Width="100" Cursor="Hand"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Background="Transparent" BorderBrush="#E0E5EC"
+                        BorderThickness="5" CornerRadius="12">
+                                            <Border.Effect>
+                                                <DropShadowEffect x:Name="InnerLightShadow" BlurRadius="12"
+                                          ShadowDepth="5" Direction="135"
+                                          Color="#FFFFFF" Opacity="0.8"/>
+                                            </Border.Effect>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+
+                                <Grid Name="OuterGrid">
+                                    <Border x:Name="OuterLowerBorder"
+                    Height="90" Width="90" Cursor="Hand"
+                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Background="#E0E5EC" BorderBrush="#E0E5EC"
+                    BorderThickness="5" CornerRadius="7">
+                                        <Border.Effect>
+                                            <DropShadowEffect x:Name="OuterDarkShadow" BlurRadius="12"
+                                      ShadowDepth="5" Direction="315"
+                                      Color="#000000" Opacity="0.2"/>
+                                        </Border.Effect>
+                                    </Border>
+
+                                    <Border x:Name="OuterUpperBorder"
+        Height="90" Width="90" Cursor="Hand"
+        VerticalAlignment="Center" HorizontalAlignment="Center"
+        Background="#E0E5EC" BorderBrush="#E0E5EC"
+        BorderThickness="5" CornerRadius="7">
+                                        <Border.Effect>
+                                            <DropShadowEffect x:Name="OuterLightShadow" BlurRadius="12"
+                          ShadowDepth="5" Direction="135"
+                          Color="#FFFFFF" Opacity="0.8"/>
+                                        </Border.Effect>
+                                        <Border.Triggers>
+                                            <EventTrigger RoutedEvent="MouseDown">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetName="OuterGrid"
+                                     Storyboard.TargetProperty="Opacity"
+                                     From="1" To="0" Duration="0:0:0:0.2">
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="OuterUpperBorder"
+                                     Storyboard.TargetProperty="Width"
+                                     From="90" To="80" Duration="0:0:0:0.2" >
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="OuterUpperBorder"
+                                     Storyboard.TargetProperty="Height"
+                                     From="90" To="80" Duration="0:0:0:0.2" >
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="OuterLowerBorder"
+                                     Storyboard.TargetProperty="Width"
+                                     From="90" To="80" Duration="0:0:0:0.2" >
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="OuterLowerBorder"
+                                     Storyboard.TargetProperty="Height"
+                                     From="90" To="80" Duration="0:0:0:0.2" >
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="OuterDarkShadow"     
+                                     Storyboard.TargetProperty="ShadowDepth"
+                                     From="5" To="0" Duration="0:0:0:0.2">
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="OuterLightShadow"
+                                     Storyboard.TargetProperty="ShadowDepth"     
+                                     From="5" To="0" Duration="0:0:0:0.2">
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="InnerDarkShadow"     
+                                     Storyboard.TargetProperty="ShadowDepth"
+                                     From="0" To="5" Duration="0:0:0:0.2">
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="InnerLightShadow"
+                                     Storyboard.TargetProperty="ShadowDepth"     
+                                     From="0" To="5" Duration="0:0:0:0.2">
+                                                        </DoubleAnimation>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                            <EventTrigger RoutedEvent="MouseUp">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetName="OuterGrid"
+                                     Storyboard.TargetProperty="Opacity"
+                                     From="0" To="1" Duration="0:0:0:0.2">
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="OuterUpperBorder"
+                                     Storyboard.TargetProperty="Width"
+                                     From="90" To="100" Duration="0:0:0:0.2" AutoReverse="True">
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="OuterUpperBorder"
+                                     Storyboard.TargetProperty="Height"
+                                     From="90" To="100" Duration="0:0:0:0.2" AutoReverse="True">
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="OuterLowerBorder"
+                                     Storyboard.TargetProperty="Width"
+                                     From="90" To="100" Duration="0:0:0:0.2" AutoReverse="True">
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="OuterLowerBorder"
+                                     Storyboard.TargetProperty="Height"
+                                     From="90" To="100" Duration="0:0:0:0.2" AutoReverse="True">
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="OuterDarkShadow"     
+                                     Storyboard.TargetProperty="ShadowDepth"
+                                     From="0" To="5" Duration="0:0:0:0.2">
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="OuterLightShadow"
+                                     Storyboard.TargetProperty="ShadowDepth"     
+                                     From="0" To="5" Duration="0:0:0:0.2">
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="InnerDarkShadow"
+                                     Storyboard.TargetProperty="ShadowDepth"     
+                                     From="5" To="0" Duration="0:0:0:0.2">
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetName="InnerLightShadow"
+                                     Storyboard.TargetProperty="ShadowDepth"     
+                                     From="5" To="0" Duration="0:0:0:0.2">
+                                                        </DoubleAnimation>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Border.Triggers>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Button Style="{DynamicResource btn1}">
+        
+    </Button>
+</Window>
